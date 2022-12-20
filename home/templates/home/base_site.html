@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>{% block title %}{% endblock title %}</title>
+        <!-- Stylesheet links -->
+        {% block extra_style %}{% endblock extra_style %}
+        {% include 'home/includes/link.html' %}
+    </head>
+    <body class="d-flex flex-column h-100">
+        <main class="flex-shrink-0">
+            <!-- Navigation-->
+            {% include 'home/includes/header.html' %}
+
+
+            {% block content_head %}{% endblock content_head %}
+            {% block content %}{% endblock content %}
+
+
+            <!-- Footer-->
+            {% include 'home/includes/footer.html' %}
+
+            <!-- Scripts with src-->
+            {% include 'home/includes/script.html' %}
+            {% block extra_script %}{% endblock extra_script %}
+        </main>
+    </body>
+    </html>
+    

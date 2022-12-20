@@ -1,0 +1,78 @@
+:root {
+
+  --bs-primary: #0d6efd;
+  --bs-secondary: #6c757d;
+  --bs-success: #198754;
+  --bs-info: #0dcaf0;
+  --bs-warning: #ffc107;
+  --bs-danger: #dc3545;;
+  --bs-dark: #212529;
+  --bs-white: #ffffff;
+  
+  --bs-success-rgb: rgb(25, 135, 84);
+  --bs-warning-rgb: rgb(255, 193, 7);
+  --bs-danger-rgb: rgb(220, 53, 69);
+
+    --primary: #292b30;
+    --secondary: var(--bs-dark);
+    --accent: var(--bs-white);
+    --primary-fg: var(--bs-white);
+
+    --body-fg: #333;
+    --body-bg: var(--bs-white);
+    --body-quiet-color: var(--bs-dark);
+    --body-loud-color: var(--bs-dark);
+
+    --header-color: var(--bs-primary);
+    --header-branding-color: var(--accent);
+    --header-bg: var(--secondary);
+    --header-link-color: var(--primary-fg);
+  
+    --breadcrumbs-fg: #6c757d;
+    --breadcrumbs-link-fg: white;
+    --breadcrumbs-bg: var(--primary);
+  
+    --link-fg: var(--bs-dark);
+    --link-hover-color: var(--bs-primary);
+    --link-selected-fg: var(--bs-primary);
+
+    --hairline-color: #e8e8e8;
+    --border-color: #ccc;
+  
+    --error-fg: var(--bs-danger);
+  
+    --message-success-bg: var(--bs-success-rgb);
+    --message-warning-bg: var(--bs-warnning-rgb);
+    --message-error-bg: var(--bs-danger-rgb);
+  
+    --darkened-bg: #f0eded; /* A bit darker than --body-bg */
+    --selected-bg: #e4e4e4; /* E.g. selected table cells */
+    --selected-row: #bababa;
+  
+    --button-fg: #fff;
+    --button-bg: var(--primary);
+    --button-hover-bg: #609ab6;
+    --default-button-bg: var(--secondary);
+    --default-button-hover-bg: #205067;
+    --close-button-bg: #888; /* Previously #bbb, contrast 1.92 */
+    --close-button-hover-bg: #747474;
+    --delete-button-bg: #ba2121;
+    --delete-button-hover-bg: #a41515;
+  
+    --object-tools-fg: var(--button-fg);
+    --object-tools-bg: var(--close-button-bg);
+    --object-tools-hover-bg: var(--close-button-hover-bg);
+
+    --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+    --bs-body-font-family: var(--bs-font-sans-serif);
+    --bs-body-font-size: 1rem;
+    --bs-body-font-weight: 400;
+  
+  }
+
+*{
+  font-family: var(--bs-body-font-family);
+  font-weight: 650;
+}

@@ -1,0 +1,15 @@
+{% extends 'home/base_list.html' %}{% load static %} 
+
+{% block list_info %} 
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe nam voluptatibus asperiores ullam culpa eum consequatur, libero placeat alias distinctio ut quidem voluptate ex unde, dignissimos, exercitationem voluptatum in molestiae.
+{% endblock list_info %}
+
+{% block list %}
+
+<div class="row gx-5">
+    {% for post in object_list %}
+    {% include 'home/includes/post_card.html' %}
+    {% endfor %}
+</div>
+
+{% endblock list %}

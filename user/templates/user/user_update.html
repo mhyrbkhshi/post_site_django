@@ -1,0 +1,15 @@
+{% extends 'user/base_form.html' %}
+
+{% block title %}Edit {{user.username}}{% endblock title %}
+
+{% block form_head %}{{user.username}} profile edit{% endblock form_head %}
+{% block form_info %} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis temporibus, sint sunt alias laborum molestias. {% endblock form_info %}
+
+{% block btn %}
+<div class="d-grid">
+    <button class="btn btn-primary btn-lg" id="submitButton" type="submit"> Update </button>
+</div>
+<div class="d-grid">
+    <a href="{{user.get_absolute_url}}" class="btn btn-secondary btn-lg" style='margin-top: 1rem;'>Back to profile</a>
+</div>
+{% endblock btn %}

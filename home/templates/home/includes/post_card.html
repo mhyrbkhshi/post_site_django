@@ -1,0 +1,32 @@
+{% load static %}
+
+<div class="col-lg-4 mb-5">
+    <div class="card h-100 shadow border-0">
+        <img class="card-img-top" src="{{post.photo.url}}" alt="{{post.title}}" />
+        <div class="card-body p-4">
+            {% for tag in post.tag.all %}
+            <div class="badge bg-primary bg-gradient rounded-pill mb-2">
+                {{tag.name}} 
+                <i class="bi {% if tag.attr %}{{tag.attr}}{% else %}bi-tag-fill{% endif %}"></i>
+            </div>
+            {% endfor %}
+            <a class="text-decoration-none link-dark stretched-link" href="{{post.get_absolute_url}}"><h5 class="card-title mb-3">
+                {{post.title}}
+            </h5></a>
+            <h6><i class="bi bi-heart-half" style="color: red;"></i> {{post.likes.count}}</h6>
+            <h6><i class="bi bi-chat-right-dots" ></i> {{post.comment_set.count}}</h6>
+            <p class="card-text mb-0">{{post.description|truncatechars:220}}</p>
+        </div>
+        <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+            <div class="d-flex align-items-end justify-content-between">
+                <div class="d-flex align-items-center">
+                    <img id="profile" class="rounded-circle me-3" src="{% if post.user.photo %}{{post.user.photo.url}}{% else %}{% static 'user/img/default_profile.jpg' %} {% endif %}" alt="{{post.user.username}}" />
+                    <div class="small">
+                        <div class="fw-bold">{{post.user}}</div>
+                        <div class="text-muted">{{post.created.date}} &middot; {{post.created.time}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

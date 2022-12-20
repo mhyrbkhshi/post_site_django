@@ -1,0 +1,22 @@
+{% extends 'home/base_list.html' %}
+
+{% block title %}Tag {{tag.name}}{% endblock title %}
+
+{% block list_head %}
+<i class="bi {% if tag.attr %}{{tag.attr}}{% else %}bi-tag-fill{% endif %}"></i>
+{{tag.name}}
+{% endblock list_head %}
+
+{% block list_info %}
+<p> {{tag.text}}</p>
+{% endblock list_info %}
+
+{% block list %}
+
+<div class="row gx-5">
+    {% for post in object_list %}
+    {% include 'home/includes/post_card.html' %}
+    {% endfor %}
+</div>
+
+{% endblock list %}

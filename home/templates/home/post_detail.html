@@ -1,0 +1,130 @@
+{% extends 'home/base_site.html' %} {% load static %}
+{% block title %}{{post.title}} post{{x}} {% endblock title %}
+{% block content %}
+<!-- Page Content-->
+<section class="py-5">
+    <div class="container px-5 my-5">
+        <div class="row gx-5">
+            <div class="col-lg-3">
+                <div class="d-flex align-items-center mt-lg-5 mb-4">
+                    {% if post.user.photo %}
+                    <img id='profile' class="img-fluid rounded-circle" src="{{post.user.photo.url}}" alt="{{post.title}}" />
+                    {% else %}
+                    <img id='profile' class="img-fluid rounded-circle" src="{% static 'user/img/default_profile.jpg' %}" alt="{{post.title}}" />
+                    {% endif %}
+                    <div class="ms-3">
+                        <div class="fw-bold">
+                            {{post.user.username}} 
+                        </div>
+                        <div class="text-muted">{{post.user.bio|default:post.user.username}}</div>
+                    </div>
+                </div>
+                <a href="{% url 'user-profile' post.user.username %}" class='btn  btn-primary' style="width:100%;">Profile</a> 
+            </div>
+            
+            <div class="col-lg-9">
+
+                <!-- Post content-->
+                <article>
+                    <!-- Post header-->
+                    <header class="mb-4">
+                        <!-- Post title-->
+                        <h1 class="fw-bolder mb-1">
+                            {{post.title}}
+                            {% if post.user == user %}
+                            <a href="{% url 'post-delete' post.slug %}" class='btn btn-danger' >Delete</a>
+                            <a href="{% url 'post-update' post.slug %}" class='btn btn-secondary' >Edit</a>
+                            {% endif %}
+                        </h1>
+                        <!-- Post meta content-->
+                        <div class="text-muted fst-italic mb-2">{{post.created}}</div>
+                        <!-- Post categories-->
+                        {% for tag in post.tag.all %}
+                        <a class="badge bg-secondary text-decoration-none link-light" href="{% url 'tag-detail' tag.slug %}">
+                            {{tag.name}}
+                        </a>
+                        {% endfor %}
+                    </header>
+                    <!-- Preview image figure-->
+                    <figure class="mb-4"><img class="img-fluid rounded" src="{{post.photo.url}}" alt="{{post.title}}" /></figure>
+                    <!-- Post content-->
+                    <section class="mb-5">
+                        <h4>
+                            {% if user in post.likes.all %}
+                            <button class='btn btn-secondary' onclick='like("{{post.slug}}")'>
+                                <i id='heart' class="bi bi-suit-heart-fill" style="color: red;"></i> 
+                                <div id='like_number' style='display: inline-block;'>{{post.likes.count}}</div>
+                                </button>
+                            {% else %}
+                            <button class='btn btn-secondary' onclick='like("{{post.slug}}")'>
+                                <i id='heart' class="bi bi-suit-heart" style="color: red;"></i>
+                                <div id='like_number' style='display: inline-block;'>{{post.likes.count}}</div>
+                            </button>
+                            {% endif %}
+                            <button class='btn btn-secondary' onclick='goToComments()'>
+                                <i class="bi bi-chat-right-dots"></i> 
+                                <div id='comment_number' style='display: inline-block;'>{{post.comment_set.count}}</div> 
+                            </button>
+                        </h4>
+                        <p class="fs-5 mb-4">{{post.description}}</p>
+                        {% if post.info %}
+                        <h2 class="fw-bolder mb-4 mt-5">{{post.info_h}}</h2>
+                        {% endif %}
+                        {% if post.info %}
+                        <p class="fs-5 mb-4">{{post.info}}</p>
+                        {% endif %}
+                    </section>
+                </article>
+                <!-- Comments section-->
+                
+                <section>
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <!-- Comment form-->
+                            <form method='POST' id='comment_form' class="mb-4">
+                                {% csrf_token %}
+                                {% if comment_form.non_field_errors %} <p>{{input.non_field_errors}}</p> {% endif %}
+                                {% for input in comment_form %}
+                                    <div class="mb-3">
+                                        {{input}}
+                                        {% if input.errors %} <div class='alert-danger'>{{input.errors}}</div> {% endif %}
+                                    </div>
+                                {% endfor %}
+                                <input type="submit" value="Comment" class='btn btn-primary' {% if not user.is_authenticated %}disabled{% endif %}>
+                                {% if not user.is_authenticated %}
+                                <p class='alert-warning'>For commenting you must authenticated first !</p>
+                                {% endif %}
+                            </form>
+                            <!-- Comment with nested comments-->
+                            {% for comment in post.comment_set.all %}
+                                {% include 'home/includes/comment_card.html' %}
+                            {% endfor %}
+                            {% if not post.comment_set.all %}
+                            <div class="d-flex">
+                                No comment exist.
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+{% endblock content %}
+
+{% block extra_script %}
+<script src="{% static 'home/js/post_detail.js' %}"></script>
+
+<script>
+    {% comment %} when page loadded empty the replay input value {% endcomment %}
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('replay_input').value = ''
+
+        {% if request.GET.commented == '1' or commented%}
+        goToComments()
+        {% endif %}
+    })
+</script>
+{% endblock extra_script %}

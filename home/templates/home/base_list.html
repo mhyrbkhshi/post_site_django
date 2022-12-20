@@ -1,0 +1,45 @@
+{% extends 'home/base_site.html' %} 
+
+{% block title %}{{list_name}}s{% endblock title %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container px-5 my-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="text-center">
+                    <h2 class="fw-bolder"> {% block list_head %}{{list_name}} list{% endblock list_head %} </h2>
+                    <p> {% block list_info %}{% endblock list_info %} </p>
+                    <a href="{% url 'home-index' %}" class="link-dark">Back to home</a>
+                </div>
+            </div>
+            <div class="input-group mb-1">
+                <form>
+                    <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Enter post title" name='search' {% if request.GET.search %}value={{request.GET.search}}{% endif %}>
+                    </div>
+                    </div>
+                </form>
+            </div>              
+        </div>
+        
+        {% block list %}{% endblock list %}
+        
+        {% if object_list %}
+        <hr>
+        <div class="pagintion-div">
+            {% include 'home/includes/pagination.html' %}
+        </div>
+    
+        {% else %}
+        <div class="row gx-5">
+            <div class="card h-100 shadow border-0">
+                <div style='margin: auto; padding: 1rem;'>No {{list_name}} exist.</div>
+            </div>
+        </div>    
+        {% endif %}
+
+    </div>
+</section>
+{% endblock content %}

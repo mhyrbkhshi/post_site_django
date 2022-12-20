@@ -1,0 +1,18 @@
+{% extends 'home/base_list.html' %}
+
+{% block title %}Tags{% endblock title %}
+
+{% block list_head %}Tag list {% endblock list_head %}
+
+{% block list_info %}
+Select which tag you want and see the posts contains that tag,
+better way to find posts you want to see.
+{% endblock list_info %}
+
+{% block list %}
+
+{% for tag in object_list %}
+{% include 'home/includes/tag_card.html' %}
+{% endfor %}
+
+{% endblock list %}

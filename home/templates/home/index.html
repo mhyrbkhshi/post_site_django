@@ -1,0 +1,114 @@
+{% extends 'home/base_site.html' %} {% load static %}
+{% block title %}Home{% endblock title %}
+{% block content_head %}
+        <!-- Content Header -->
+        <header class="bg-dark py-5">
+            <div class="container px-5">
+                <div class="row gx-5 align-items-center justify-content-center">
+                    <div class="col-lg-8 col-xl-7 col-xxl-6">
+                        <div class="my-5 text-center text-xl-start">
+                            {% if user.is_authenticated %}
+                            <h1 class="display-5 fw-bolder text-white mb-2">Post website is ready for use.</h1>
+                            <p class="lead fw-normal text-white-50 mb-4">You can create post and use other users posts with your account.I hope you like it.</p>
+                            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{% url 'post-create' %}">Create post now!</a>
+                                <a class="btn btn-outline-light btn-lg px-4" href="{% url 'post-popular-list' %}">See the popular posts</a>
+                            </div>
+                            
+                            {% else %}
+                            <h1 class="display-5 fw-bolder text-white mb-2">Add your account in website to use our website better.</h1>
+                            <p class="lead fw-normal text-white-50 mb-4">If you havean't an account create now for free.</p>
+                            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{% url 'user-signup' %}">Signup now</a>
+                                <a class="btn btn-outline-light btn-lg px-4" href="{% url 'user-signin' %}">Signin</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" {% if page_info %} src="{{page_info.photo.url}}" alt="{{page_info.user_admin}}" {% else %} src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." {% endif %}  /></div>
+                </div>
+            </div>
+        </header>
+{% endblock content_head %}
+
+{% block content %}
+<!-- Features section-->
+<section class="py-5" id="features">
+    <div class="container px-5 my-5">
+        <div class="row gx-5">
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <h2 class="fw-bolder mb-0">Tags better way to find what posts you want.</h2>
+            </div>
+            <div class="col-lg-8">
+                
+                <div class="row gx-5 row-cols-1 row-cols-md-2">
+                    {% if tags %}
+                    {% for tag in tags %}
+
+                    {% include 'home/includes/tag_card.html' %}
+                    
+                    {% endfor %}
+                    {% else %}
+                    
+                    <div class="col mb-5 h-100">
+                        <h2>No tags exsit.</h2>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+            <a class="btn btn-outline-dark" href="{% url 'tag-list' %}">Go to tags</a>
+        </div>
+    </div>
+</section>
+<!-- Testimonial section-->
+{% if page_info %}
+<div class="py-5 bg-light">
+    <div class="container px-5 my-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-10 col-xl-7">
+                <div class="text-center">
+                    <div class="fs-4 mb-4 fst-italic">{{page_info.text}}</div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <img id='profile' class="rounded-circle me-3" src="{% if page_info.admin_user.photo %} {{page_info.admin_user.photo.url}} {% else %} {% static 'user/img/default_profile.jpg' %} {% endif %}" alt="{{page_info.admin_user.username}}" />
+                        <div class="fw-bold">
+                            {{page_info.admin_user.username}}
+                            <span class="fw-bold text-primary mx-1">/</span>
+                            {{page_info.admin_user.bio}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Blog preview section-->
+<section class="py-5">
+    <div class="container px-5 my-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="text-center">
+                    <h2 class="fw-bolder">Popular posts</h2>
+                    <p class="lead fw-normal text-muted mb-5">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque fugit ratione dicta mollitia. Officiis ad.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row gx-5">
+        {% for post in high_post %}
+            {% include 'home/includes/post_card.html' %}
+            {% endfor %}
+            <a href="{% url 'post-popular-list' %}" class='btn btn-outline-primary'>Go to popular posts</a>
+        </div>
+
+        {% if not high_post %}
+        <div class="row gx-5">
+            <div class="card h-100 shadow border-0">
+                <div style='margin: auto; padding: 1rem;'>No posts exist.</div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}

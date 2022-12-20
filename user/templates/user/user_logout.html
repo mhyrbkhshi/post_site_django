@@ -1,0 +1,18 @@
+{% extends 'user/base_form.html' %}
+
+{% block form_head %}{{user.username}} logout form.{% endblock form_head %}
+{% block form_info %}Confirm to logout.{% endblock form_info %}
+
+{% block icon %}
+<div class="feature bg-danger bg-gradient text-white rounded-3 mb-3">
+    <i class="bi bi-person-x"></i>
+</div>
+{% endblock icon %}
+
+
+{% block btn %}
+<div class="d-grid">
+    <button class="btn btn-danger btn-lg" id="submitButton" type="submit"> Confirm </button>
+    <a class="btn btn-secondary btn-lg" style='margin-top: 1rem;' href="{% url 'user-profile' user.username %}" > Cancel </a>
+</div>
+{% endblock btn %}

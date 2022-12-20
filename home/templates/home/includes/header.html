@@ -1,0 +1,39 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container px-5">
+        <a class="navbar-brand" href="{% url 'home-index' %}">Post Website</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'home-index' %}active{% endif %}" href="{% url 'home-index' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'tag-list' %}active{% endif %}" href="{% url 'tag-list' %}">Tags</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Post</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                        {% if user.is_authenticated %}
+                        <li><a class="dropdown-item {% if request.resolver_match.url_name == 'post-create' %}active{% endif %}" href="{% url 'post-create' %}">Create Post</a></li>
+                        {% endif %}
+                        <li><a class="dropdown-item {% if request.resolver_match.url_name == 'post-popular-list' %}active{% endif %}" href="{% url 'post-popular-list' %}">Popular List</a></li>
+                        <li><a class="dropdown-item {% if request.resolver_match.url_name == 'post-list' %}active{% endif %}" href="{% url 'post-list' %}">Time List</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">account</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
+                        {% if user.is_authenticated %}
+                        <li><a class="dropdown-item {% if request.resolver_match.captured_kwargs.username == user.username %}active{% endif %}" href="{% url 'user-profile' user.username %}">
+                            <img id="profile" class="card-img-top" src="{% if user.photo %}{{user.photo.url}}{% else %}{% static 'user/img/default_profile.jpg' %} {% endif %}" alt="{{post.user.username}}" />
+                            {{user.username}}
+                        </a></li>
+                        <li><a class="dropdown-item {% if request.resolver_match.url_name == 'create-otp' %}active{% endif %}" href="{% url 'create-otp' %}">{% if user.email %}Change email {% else %}Add email{% endif %}</a></li>
+                        <li><a class="dropdown-item {% if request.resolver_match.url_name == 'user-logout' %}active{% endif %}" href="{% url 'user-logout' %}">Logout</a></li>
+                        {% else %}
+                        <li><a class="dropdown-item {% if request.resolver_match.url_name == 'user-signup' %}active{% endif %}" href="{% url 'user-signup' %}">Create account</a></li>
+                        <li><a class="dropdown-item {% if request.resolver_match.url_name == 'user-signin' %}active{% endif %}" href="{% url 'user-signin' %}">Signin</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,42 @@
+{% extends 'user/base_form.html' %}
+
+{% block icon %}
+<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+    <i class="bi bi-images"></i>
+</div>
+{% endblock icon %}
+
+{% block fields %}
+
+{% for input in form %}
+<div class="form-floating mb-3">
+    
+    {% if input.name == 'photo' %}
+    <div id='post_img'>{{input}}</div>
+    {% elif input.name == 'tag' %}
+    <div class='container'>
+        {{input}}
+    </div>
+    {% else %}
+    {{input}}
+    <label for="{{input.name}}">{{input.label}}</label>
+    {% endif %}
+
+    {% if input.errors %}
+    <div class="alert-danger" id='error'>{{input.errors}}</div>
+    {% endif %}
+    
+    {% if input.help_text %}
+    <div class="alert-warning">{{input.help_text}}</div>
+    {% endif %}
+</div>
+{% endfor %}
+
+{% endblock fields %}
+
+{% block btn %}
+<div class="d-grid">
+    <button class="btn btn-primary btn-lg" id="submitButton" type="submit"> {% if post %} Update {% else %} Create {% endif %} </button>
+    <a class="btn btn-secondary btn-lg" style='margin-top: 1rem;' href=" {% if post %}{{post.get_absolute_url}} {% else %} {{user.get_absolute_url}} {% endif %} " > Cancel </a>
+</div>
+{% endblock btn %}

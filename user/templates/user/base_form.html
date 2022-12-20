@@ -1,0 +1,86 @@
+{% extends 'home/base_site.html' %} {% load static %}
+{% block title %}{{form_name}}{% endblock title %}
+
+{% block extra_style %}
+    <link rel="stylesheet" href="{% static "client_side_image_cropping/croppie.css" %}">
+    <link rel="stylesheet" href="{% static "client_side_image_cropping/cropping_widget.css" %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{% static "client_side_image_cropping/croppie.min.js" %}"></script>
+    <script src="{% static "client_side_image_cropping/cropping_widget.js" %}"></script>
+{% endblock extra_style %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container px-5">
+        <!-- Contact form-->
+        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+            <div class="text-center mb-5">
+
+                {% block icon %}
+                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+                    <i class="bi bi-person"></i>
+                </div>
+                {% endblock icon %}
+
+                <h1 class="fw-bolder"> {% block form_head %}{{form_name}} form{% endblock form_head %} </h1>
+                <p class="lead fw-normal text-muted mb-0">{% block form_info %}No information for this form.{% endblock form_info %}</p>
+            </div>
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    
+                    <form id="userForm" action='' method='POST'>
+                        {% csrf_token %}
+
+                        {% block fields %}
+
+                        {% for input in form %}
+                        <div class="form-floating mb-3">
+                            
+                            {% if input.name != 'photo' %}
+                            {{input}}
+                            <label for="{{input.name}}">{{input.label}}</label>
+                            {% else %}
+                            <div id='post_img'>{{input}}</div>
+                            {% endif %}
+
+                            {% if input.errors %}
+                            <div class="alert-danger" id='error'>{{input.errors}}</div>
+                            {% endif %}
+                            
+                            {% if input.help_text %}
+                            <div class="alert-warning">{{input.help_text}}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+
+                        {% endblock fields %}
+                        
+                        <!-- Submit Button-->
+                        {% block btn %}
+                        <div class="d-grid">
+                            <button class="btn btn-primary btn-lg" id="submitButton" type="submit"> Submit </button>
+                        </div>
+                        {% endblock btn %}
+
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+</section>
+
+{% endblock content %}
+
+{% block extra_script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var error = document.getElementById('error')
+        if (error){
+            error.parentElement.getElementsByTagName('input')[0].scrollIntoView()
+        }else{
+            form = document.getElementById('userForm')
+            form.scrollIntoView()
+        }
+    })
+</script>
+{% endblock extra_script %}

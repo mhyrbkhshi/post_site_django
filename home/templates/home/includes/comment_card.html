@@ -1,0 +1,33 @@
+{% if not comment.replay %}
+<div class="d-flex {% if comment.comment_set.exists %}mb-4{% endif %}">
+    <!-- Parent comment-->
+    <div class="flex-shrink-0"><img id='profile' class="rounded-circle" src="{{comment.user.photo.url}}" alt="{{comment.user.username}}" /></div>
+    <div class="ms-3">
+        <div class="fw-bold">
+            {{comment.user.username}}
+                <button class='badge bg-secondary' {% if not user.is_authenticated %}disabled{% endif %} onclick='replay({{comment.pk}})'>replay</button>
+                {% if user == comment.user %}
+                <button class='badge bg-danger' onclick="delete_comment({{comment.pk}})">Delete</button>
+                {% endif %}
+        </div>
+        {{comment.text}}
+        {% for child in comment.comment_set.all %}
+        <!-- Child comment -->
+        <div class="d-flex mt-4">
+            <div class="flex-shrink-0">
+                <img id='profile' class="rounded-circle" src="{{child.user.photo.url}}" alt="{{child.user.username}}" />
+            </div>
+            <div class="ms-3">
+                <div class="fw-bold">
+                    {{child.user.username}}
+                    {% if user == child.user %}
+                    <button class='badge bg-danger' onclick="delete_comment({{child.pk}})">Delete</button>
+                    {% endif %} 
+                </div>
+                {{child.text}}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}

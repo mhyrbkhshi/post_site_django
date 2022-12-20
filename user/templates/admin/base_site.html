@@ -1,0 +1,16 @@
+{% extends "admin/base.html" %}{% load static %}
+{% load i18n %}
+{% block title %}{% translate 'Admin site' %}{% endblock %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'user/css/customize.css' %}">
+{% endblock %}
+
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">
+    <strong>{% translate "ADMIN PANEL" %}</strong>
+</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

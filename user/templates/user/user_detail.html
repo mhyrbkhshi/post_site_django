@@ -1,0 +1,57 @@
+{% extends 'home/base_site.html' %} {% load static %}
+{% block title %}Profile {{user_target.username}}{% endblock title %}
+{% block content %}
+
+<!-- Page Content-->
+<section class="py-5">
+    <div class="container px-5 my-5">
+        <div class="text-center mb-5">
+            {% if user_target.photo %}
+            <img src="{{user_target.photo.url}}" alt="" style='width: 20%;'>
+            {% else %}
+            <img src="{% static 'user/img/default_profile.jpg' %}" alt="" style='width: 20%;'>
+            {% endif %}
+            <h1 class="fw-bolder">{{user_target.username}}</h1>
+            {% if user_target.fullname %}
+            <p class="lead fw-normal text-muted mb-2">{{user_target.fullname}}</p>
+            {% endif %}
+            {% if user_target.email %}
+            <p class="lead fw-normal text-muted mb-0">{{user_target.email}}</p>
+            {% endif %}
+            <p class="fw-normal text-muted mb-0">{{user_target.bio|default:'No bio set'}}</p>
+            {% if user == user_target %}
+            {% if not user_target.email %}
+            <a class='btn btn-danger' style='width: 100%; margin-top: 1rem;' href="{% url 'create-otp' %}">Add your email!!</a>
+            {% endif %}
+            <a class='btn btn-secondary' style='width: 100%; margin-top: 1rem;' href="{% url 'user-edit' user.username %}">Edit your Information</a>
+            <a href="{% url 'post-create' %}" class='btn btn-primary' style='width: 100%; margin-top: 1rem;'>Create new post</a>
+            {% endif %}
+        </div>
+        <hr>
+        <div class="row gx-5">
+            {% for post in post_list %}
+            <div class="col-lg-6">
+                <div class="position-relative mb-5">
+                    <img class="img-fluid rounded-3 mb-3" src="{{post.photo.url}}" alt="{{post.title}}" />
+                    <a class="h3 fw-bolder text-decoration-none link-dark stretched-link" href="{{post.get_absolute_url}}">
+                        {{post.title}}
+                    </a>
+                    <p style="display: inline-block;"><i class="bi bi-heart-half" style="color: red;"></i> {{post.likes.count}}
+                    <i class="bi bi-chat-right-dots" ></i> {{post.comment_set.count}}
+                    </p>
+                    <p class="fw-normal text-muted mb-0">{{post.description|truncatechars:50}}</p>
+                </div>
+            </div>
+            {% endfor %}
+            {% if post_list %}
+                {% include 'home/includes/pagination.html' %}
+            {% else %}
+            <div class="col-lg-6">
+                No posts exist.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

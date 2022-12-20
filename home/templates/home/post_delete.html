@@ -1,0 +1,18 @@
+{% extends 'user/base_form.html' %}
+{% block title %}Delete {{post.title}}{% endblock title %}
+
+{% block icon %}
+<div class="feature bg-danger bg-gradient text-white rounded-3 mb-3">
+    <i class="bi bi-x-circle"></i>
+</div>
+{% endblock icon %}
+
+{% block form_head %}Are you sure for delete '{{post.title}}' post ?{% endblock form_head %}
+{% block form_info %} Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos molestiae nesciunt repellat eligendi quas cum? Nam eveniet perspiciatis est delectus doloremque placeat dicta repellat recusandae temporibus voluptate quia, maiores expedita. {% endblock form_info %}
+
+{% block btn %}
+<div class="d-grid">
+    <button class="btn btn-danger btn-lg" id="submitButton" type="submit" > Confirm </button>
+    <a class="btn btn-secondary btn-lg" style='margin-top: 1rem;' href="{% url 'post-detail' post.slug %}" > Cancel </a>
+</div>
+{% endblock btn %}

@@ -1,0 +1,16 @@
+#profile{
+    width: 3rem;
+    height: 3rem;
+    border-radius: 2rem;
+}
+
+.alert-danger{
+    margin-top: 1rem;
+}
+#post_img img{
+    width: 100%;
+    height: auto;
+}
+#area_input{
+    height: 10%;
+}

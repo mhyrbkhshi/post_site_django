@@ -1,0 +1,14 @@
+{% extends 'user/base_form.html' %}
+
+{% block form_head %} Enter the sended code {% endblock form_head %}
+{% block form_info %} 
+we send a code to {{otp.email}} , 3 minutes after {{otp.created.time}} your code invalided ,
+if you want choose another email try again after 3 minutes 
+<div id='timer'></div>
+{% endblock form_info %}
+
+{% block icon %}
+<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+    <i class="bi bi-chat-dots"></i>
+</div>
+{% endblock icon %}
