@@ -12,6 +12,7 @@ class Tag(models.Model):
     name = models.CharField('Name', max_length=45, unique=True)
     text = models.TextField(max_length=220, default='No description for this tag.')
     attr = models.CharField('Icon class name', max_length=30, default='bi-tag')
+    attr.help_text = 'Bootstrap icon class for example(bi-person)'
     show = models.BooleanField('show in home page', default=False)
     slug = models.SlugField(null=True, blank=True)
     slug.help_text = 'Leave this tag empty.'
