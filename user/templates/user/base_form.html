@@ -22,25 +22,29 @@
                 </div>
                 {% endblock icon %}
 
-                <h1 class="fw-bolder"> {% block form_head %}{{form_name}} form{% endblock form_head %} </h1>
+                <h1 class="fw-bolder" id='form-head'> {% block form_head %}{{form_name}} form{% endblock form_head %} </h1>
                 <p class="lead fw-normal text-muted mb-0">{% block form_info %}No information for this form.{% endblock form_info %}</p>
             </div>
             <div class="row gx-5 justify-content-center">
                 <div class="col-lg-8 col-xl-6">
                     
-                    <form id="userForm" action='' method='POST'>
+                    <form id="userForm" action='' method='POST' novalidate>
                         {% csrf_token %}
 
                         {% block fields %}
 
+                        {% if form.non_field_errors %}
+                            <div class='alert-danger'>{{form.non_field_errors}}</div>
+                        {% endif %}
+
                         {% for input in form %}
                         <div class="form-floating mb-3">
                             
-                            {% if input.name != 'photo' %}
+                            {% if input.name == 'photo' %}
+                            <div id='post_img'>{{input}}</div>
+                            {% else %}
                             {{input}}
                             <label for="{{input.name}}">{{input.label}}</label>
-                            {% else %}
-                            <div id='post_img'>{{input}}</div>
                             {% endif %}
 
                             {% if input.errors %}
@@ -77,9 +81,6 @@
         var error = document.getElementById('error')
         if (error){
             error.parentElement.getElementsByTagName('input')[0].scrollIntoView()
-        }else{
-            form = document.getElementById('userForm')
-            form.scrollIntoView()
         }
     })
 </script>

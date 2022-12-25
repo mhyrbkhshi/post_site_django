@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth import login, logout
 from django.views.generic import View, ListView, UpdateView
 from django.contrib.auth import authenticate
-from .forms import UserLoginForm, ClientUserCreateForm, ClientUserEditForm, CreateOtpForm, CheckOtpForm
+from .forms import UserLoginForm, ClientUserCreateForm, ClientUserEditForm, CreateOtpForm, CheckOtpForm,ChangePasswordForm
 from .models import User, Otp
 from django.http import Http404
 
@@ -183,3 +183,28 @@ def check_otp_view(request):
 
     else: 
         raise Http404()
+
+class UpdatePassView(View):
+    form_class = ChangePasswordForm
+    template_name = 'user/password_form.html'
+
+    def get(self, request):
+        if request.user.is_authenticated :
+            return get_form_response(request, self.template_name,'Change password', self.form_class())
+        else : raise Http404()
+
+    def post(self, request):
+        if request.user.is_authenticated :
+            form = self.form_class(request.POST)
+            if form.is_valid():
+                old_pass = form.cleaned_data['old_pass']
+                if request.user.check_password(old_pass):
+                    request.user.set_password(form.cleaned_data['password'])
+                    return HttpResponseRedirect(reverse('home-index'))
+
+                else:
+                    form.add_error('old_pass', 'This password does not match')
+
+            return get_form_response(request, self.template_name, 'Change password', form)  
+
+        else : raise Http404

@@ -26,6 +26,7 @@
                             {{user.username}}
                         </a></li>
                         <li><a class="dropdown-item {% if request.resolver_match.url_name == 'create-otp' %}active{% endif %}" href="{% url 'create-otp' %}">{% if user.email %}Change email {% else %}Add email{% endif %}</a></li>
+                        <li><a class="dropdown-item {% if request.resolver_match.url_name == 'user-password' %}active{% endif %}" href="{% url 'user-password' %}">Change password</a></li>
                         <li><a class="dropdown-item {% if request.resolver_match.url_name == 'user-logout' %}active{% endif %}" href="{% url 'user-logout' %}">Logout</a></li>
                         {% else %}
                         <li><a class="dropdown-item {% if request.resolver_match.url_name == 'user-signup' %}active{% endif %}" href="{% url 'user-signup' %}">Create account</a></li>

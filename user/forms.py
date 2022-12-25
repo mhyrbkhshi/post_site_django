@@ -170,3 +170,27 @@ class CheckOtpForm(forms.Form):
         else:
             return False
 
+class ChangePasswordForm(forms.Form):
+    old_pass = forms.CharField(label='Your last password', max_length=120, widget=forms.PasswordInput(attrs={
+        'class':'form-control',
+        'placeholder':'Your last password',
+    }))
+
+    password = forms.CharField(label='New password', max_length=120, widget=forms.PasswordInput(attrs={
+        'class':'form-control',
+        'placeholder':'New password',
+    }))
+
+    pass_confirm = forms.CharField(label='Confirm new password', max_length=120, widget=forms.PasswordInput(attrs={
+        'class':'form-control',
+        'placeholder':'Confirm new password',
+    }))
+
+    def clean_pass_confirm(self):
+        password = self.cleaned_data.get('password')
+        pass_confirm = self.cleaned_data['pass_confirm']
+
+        if password and pass_confirm != password:
+            raise ValidationError('Password does not match with confirm password', 'not-same-pass')
+
+        return pass_confirm
