@@ -99,7 +99,7 @@ class UserProfileView(ListView):
 class UserEditView(UpdateView):
     form_class=ClientUserEditForm
     model=User 
-    template_name = 'user/user_update.html'
+    template_name = 'user/user_form.html'
     slug_field = 'username'
     slug_url_kwarg = 'username'
 
