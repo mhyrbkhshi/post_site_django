@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate
 from .forms import UserLoginForm, ClientUserCreateForm, ClientUserEditForm, CreateOtpForm, CheckOtpForm,ChangePasswordForm
 from .models import User, Otp
 from django.http import Http404
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 class UserLogoutView(View):
@@ -17,6 +19,7 @@ class UserLogoutView(View):
 
     def post(selfm, request):
         if request.user.is_authenticated:
+            messages.add_message(request, messages.ERROR, f'Dear {request.user.username} you loged out from your account.')
             logout(request)
             return redirect(reverse('home-index'))
         else:
@@ -31,7 +34,7 @@ def get_form_response(request, template_name, form_name, form=None):
         })
 
 
-class UserSigninView(View):
+class UserSigninView(SuccessMessageMixin, View):
     form = UserLoginForm
     template_name = 'user/user_signin.html'
 
@@ -49,7 +52,8 @@ class UserSigninView(View):
                 return get_form_response(request, self.template_name, 'Signin', form)
 
             else:
-                login(request, user)
+                messages.add_message(request, messages.SUCCESS, f'Dear {user.username} you successfully signed in to you account .',extra_tags='success')
+                login(request, user)                
                 return redirect(reverse('user-profile', args=[user.username]))
         else:
             return get_form_response(request, self.template_name, 'Signin', form)
@@ -73,6 +77,7 @@ class UserSignupView(View):
             if form.is_valid():
                 user = form.save()
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                messages.add_message(request, messages.SUCCESS, f'Dear {user.username} your account created successfully.')
                 return HttpResponseRedirect(reverse('create-otp'))
             else:
                 return get_form_response(request, self.template_name, 'signup', form)
@@ -119,6 +124,7 @@ class UserEditView(UpdateView):
     def post(self, request, *args, **kwargs):
         target_user = self.get_object()
         if target_user == request.user:
+            messages.add_message(request, messages.SUCCESS, f'Dear {request.user.username} your profile updated successfully.')
             return super().post(request, *args, **kwargs)
         
         raise Http404()
@@ -200,6 +206,7 @@ class UpdatePassView(View):
                 old_pass = form.cleaned_data['old_pass']
                 if request.user.check_password(old_pass):
                     request.user.set_password(form.cleaned_data['password'])
+                    messages.add_message(request, messages.SUCCESS, f'Dear {request.user.username} your password updated seccessfully.')
                     return HttpResponseRedirect(reverse('home-index'))
 
                 else:
