@@ -117,14 +117,12 @@
 {% block extra_script %}
 <script src="{% static 'home/js/post_detail.js' %}"></script>
 
+{% if request.GET.commented == '1' or commented%}
 <script>
-    {% comment %} when page loadded empty the replay input value {% endcomment %}
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('replay_input').value = ''
-
-        {% if request.GET.commented == '1' or commented%}
         goToComments()
-        {% endif %}
     })
 </script>
+{% endif %}
 {% endblock extra_script %}

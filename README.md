@@ -1,6 +1,7 @@
 # post_site_django
 Web social media for visiting posts.
 
+0: migrate the migrations first with command (manage.py migrate)
 1: create superuser in commandline (command: manage.py createsuperuser) 
 2: run server and login to admin panel with url (/admin/) 
 3: create a group with name 'client' and add 'post' and 'comment' permissions to it

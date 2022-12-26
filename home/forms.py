@@ -20,10 +20,10 @@ class PostForm(forms.ModelForm):
     
     def save(self, commit=True):
         post = super().save(commit=False)
-        post.set_like_number()
 
         if commit:
             post.save()
+            post.set_like_number()
 
         return post 
 
