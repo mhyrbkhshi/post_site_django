@@ -39,13 +39,3 @@
         </div>
     </div>
 </nav>
-
-{% if messages %}
-<div class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div style="width: 80%; margin:0 auto; margin-top: 1rem;">
-        {% for message in messages %} 
-        <p class="alert alert-info">{{message}}</p>
-        {% endfor %}
-    </div>
-</div>
-{% endif %}

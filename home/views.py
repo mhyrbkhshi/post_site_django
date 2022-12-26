@@ -4,7 +4,7 @@ from django.views.generic import TemplateView , ListView, DetailView, UpdateView
 from .models import Post, Tag, Comment, PageInfo
 from django.http import JsonResponse, Http404
 from .forms import CommentForm, PostUpdateForm, PostCreateForm
-
+from django.contrib import messages
 
 class IndexView(TemplateView):
     template_name = 'home/index.html'
@@ -41,7 +41,7 @@ class PostListView(ListView):
 
 
 
-class PostPopularView(PostListView):
+class PopularPostView(PostListView):
     # this view like PostListView but order of queryset comes from like_number
     list_name = 'Popular post'
 
@@ -90,7 +90,7 @@ class TagDetailView(ListView):
         return context
 
 
-def post_detail(request, post_slug):
+def post_detail_view(request, post_slug):
     post = get_object_or_404(Post, slug=post_slug)
     
     if request.method == 'GET':
@@ -133,7 +133,7 @@ def post_like(request, post_slug):
         return JsonResponse({'do':do,'alert':'You can\'t like posts. authenticate first!'})
         
 
-def post_delete(request, post_slug):
+def post_delete_view(request, post_slug):
 
     if request.method == 'GET':
         post = get_object_or_404(Post, slug=post_slug)
@@ -147,8 +147,9 @@ def post_delete(request, post_slug):
         post = get_object_or_404(Post, slug=post_slug)
 
         if request.user == post.user:
+            messages.add_message(request, messages.ERROR, f'The post with title "{post.title}" deleted successfully.', 'danger')
             post.delete()
-            return HttpResponseRedirect(reverse('home-index'))
+            return HttpResponseRedirect(reverse('user-profile',args=[post.user]))
         else:
             raise ValueError('You can not delete this post.')
 
@@ -164,7 +165,6 @@ class PostUpdateView(UpdateView):
         return context
     
     def get(self, request, *args, **kwargs):
-
         target_user = self.get_object().user
         if target_user == request.user:
             return super().get(request, *args, **kwargs)
@@ -172,8 +172,10 @@ class PostUpdateView(UpdateView):
         raise Http404()
 
     def post(self, request, *args, **kwargs):
-        target_user = self.get_object().user
+        post = self.get_object()
+        target_user = post.user
         if target_user == request.user:
+            messages.add_message(request, messages.SUCCESS, f'The post with title "{post.title}" updated successfully.')
             return super().post(request, *args, **kwargs)
         
         raise Http404()
@@ -202,6 +204,7 @@ def post_create_view(request):
 
             if form.is_valid():
                 post = form.save(user)
+                messages.add_message(request, messages.SUCCESS, f'The post with title "{post.title}" created successfully.')
                 return HttpResponseRedirect(post.get_absolute_url())
             else:
                 return render(request, 'home/post_form.html', {'form_name':'Create new post', 'form':form})

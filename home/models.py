@@ -36,7 +36,7 @@ class Post(models.Model):
     description = models.TextField("Description", max_length=420)
     info_h = models.CharField('Information header', max_length=55, null=True, blank=True)
     info = models.TextField('Information', max_length=220, null=True, blank=True)
-    tag = models.ManyToManyField(Tag, null=True, blank=True)
+    tag = models.ManyToManyField(Tag, blank=True)
     status = models.CharField('Status', choices=how, max_length=10, default="active")
     created = models.DateTimeField('Created time', auto_now_add=True)
     likes = models.ManyToManyField(verbose_name='Liked by user',to=User, related_name='liked_user', related_query_name='liked_user', blank=True)

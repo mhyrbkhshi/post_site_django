@@ -19,7 +19,7 @@ class UserLogoutView(View):
 
     def post(selfm, request):
         if request.user.is_authenticated:
-            messages.add_message(request, messages.ERROR, f'Dear {request.user.username} you loged out from your account.')
+            messages.add_message(request, messages.ERROR, f'Dear "{request.user.username}" you loged out from your account.', 'danger')
             logout(request)
             return redirect(reverse('home-index'))
         else:
@@ -52,7 +52,7 @@ class UserSigninView(SuccessMessageMixin, View):
                 return get_form_response(request, self.template_name, 'Signin', form)
 
             else:
-                messages.add_message(request, messages.SUCCESS, f'Dear {user.username} you successfully signed in to you account .',extra_tags='success')
+                messages.add_message(request, messages.SUCCESS, f'Dear "{user.username}" you successfully signed in to your account .')
                 login(request, user)                
                 return redirect(reverse('user-profile', args=[user.username]))
         else:
@@ -77,7 +77,7 @@ class UserSignupView(View):
             if form.is_valid():
                 user = form.save()
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                messages.add_message(request, messages.SUCCESS, f'Dear {user.username} your account created successfully.')
+                messages.add_message(request, messages.SUCCESS, f'Dear "{user.username}" your account created successfully.')
                 return HttpResponseRedirect(reverse('create-otp'))
             else:
                 return get_form_response(request, self.template_name, 'signup', form)
@@ -101,7 +101,7 @@ class UserProfileView(ListView):
         return user.post_set.all()
 
 
-class UserEditView(UpdateView):
+class UserUpdateView(UpdateView):
     form_class=ClientUserEditForm
     model=User 
     template_name = 'user/user_form.html'
@@ -124,7 +124,7 @@ class UserEditView(UpdateView):
     def post(self, request, *args, **kwargs):
         target_user = self.get_object()
         if target_user == request.user:
-            messages.add_message(request, messages.SUCCESS, f'Dear {request.user.username} your profile updated successfully.')
+            messages.add_message(request, messages.SUCCESS, f'Dear "{target_user.username}" your profile updated successfully.')
             return super().post(request, *args, **kwargs)
         
         raise Http404()
@@ -148,6 +148,7 @@ def create_otp_view(request):
             form = CreateOtpForm(request.POST)
             if form.is_valid():
                 form.save(user)
+                messages.add_message(request, messages.SUCCESS, f'One time password for email \"{form.cleaned_data["email"]}\" created successfully.')
                 return HttpResponseRedirect(reverse('check-otp'))
 
             else:
@@ -190,7 +191,7 @@ def check_otp_view(request):
     else: 
         raise Http404()
 
-class UpdatePassView(View):
+class PasswordUpdateView(View):
     form_class = ChangePasswordForm
     template_name = 'user/password_form.html'
 
@@ -200,14 +201,20 @@ class UpdatePassView(View):
         else : raise Http404()
 
     def post(self, request):
-        if request.user.is_authenticated :
+        user = request.user
+        if user.is_authenticated :
             form = self.form_class(request.POST)
             if form.is_valid():
                 old_pass = form.cleaned_data['old_pass']
-                if request.user.check_password(old_pass):
-                    request.user.set_password(form.cleaned_data['password'])
-                    messages.add_message(request, messages.SUCCESS, f'Dear {request.user.username} your password updated seccessfully.')
-                    return HttpResponseRedirect(reverse('home-index'))
+                new_pass = form.cleaned_data['password']
+
+                if user.check_password(old_pass):
+                    user.set_password(new_pass)
+                    user.save()
+                    authenticate(request, password=new_pass, username=user.username)
+                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    messages.add_message(request, messages.SUCCESS, f'Dear "{user.username}" your password updated seccessfully.')
+                    return HttpResponseRedirect(reverse('user-profile', args=[user]))
 
                 else:
                     form.add_error('old_pass', 'This password does not match')
