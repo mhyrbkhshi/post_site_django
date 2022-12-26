@@ -136,6 +136,7 @@ def create_otp_view(request):
     if user.is_authenticated:
         if otp:
             if otp.timer():
+                messages.add_message(request, messages.INFO, f'Dear "{user.username}" you already add this email "{otp.email}".','warning')
                 return redirect(reverse('check-otp'))
 
             else:
@@ -148,7 +149,7 @@ def create_otp_view(request):
             form = CreateOtpForm(request.POST)
             if form.is_valid():
                 form.save(user)
-                messages.add_message(request, messages.SUCCESS, f'One time password for email \"{form.cleaned_data["email"]}\" created successfully.')
+                messages.add_message(request, messages.SUCCESS, f'Authentication code for email \"{form.cleaned_data["email"]}\" sended successfully.')
                 return HttpResponseRedirect(reverse('check-otp'))
 
             else:
@@ -163,6 +164,7 @@ def check_otp_view(request):
     
     if user.is_authenticated:
         if not otp:
+            messages.add_message(request, messages.INFO, f'Dear "{user.username}" enter your email again.', 'warning')
             return redirect(reverse('create-otp'))
             
         else:
@@ -178,6 +180,7 @@ def check_otp_view(request):
                             user.email = otp.email
                             user.save()
                             otp.delete()
+                            messages.add_message(request, messages.SUCCESS, f'Dear "{user.username}" email address "{user.email}" added to your profile successfully.')
                             return HttpResponseRedirect(user.get_absolute_url())
                         else:
                             form.add_error('rand_code', 'Code does not match')
@@ -186,6 +189,7 @@ def check_otp_view(request):
 
             else :
                 otp.delete()
+                messages.add_message(request, messages.INFO, f'Dear "{user.username}", enter your email again.', 'warning')
                 return redirect(reverse('create-otp'))
 
     else: 

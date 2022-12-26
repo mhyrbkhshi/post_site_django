@@ -9,7 +9,7 @@
                 <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'home-index' %}active{% endif %}" href="{% url 'home-index' %}">Home</a></li>
                 <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'tag-list' %}active{% endif %}" href="{% url 'tag-list' %}">Tags</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Post</a>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" role="button" data-bs-toggle="dropdown" aria-expanded="false">Post</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
                         {% if user.is_authenticated %}
                         <li><a class="dropdown-item {% if request.resolver_match.url_name == 'post-create' %}active{% endif %}" href="{% url 'post-create' %}">Create Post</a></li>
@@ -19,7 +19,7 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">account</a>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" role="button" data-bs-toggle="dropdown" aria-expanded="false">account</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
                         {% if user.is_authenticated %}
                         <li><a class="dropdown-item {% if request.resolver_match.captured_kwargs.username == user.username %}active{% endif %}" href="{% url 'user-profile' user.username %}">

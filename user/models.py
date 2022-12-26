@@ -60,7 +60,7 @@ class Otp(models.Model):
         return f'{self.user} - {self.rand_code}'
 
     def timer(self):
-        return self.created >= timezone.now() - timedelta(minutes=10)
+        return self.created >= timezone.now() - timedelta(minutes=1)
     
     def end_time(self):
         return self.created + timedelta(minutes=10)
