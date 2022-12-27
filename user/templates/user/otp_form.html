@@ -2,11 +2,11 @@
 
 {% block title %} {{user.username}} email{% endblock title %}
 
+{% block form_head %}<h1 class="fw-bolder" id='form-head'> enter your email here </h1>{% endblock form_head %}
+{% block form_info %}<p class="lead fw-normal text-muted mb-0">we will send a code to your email for confirm the email address..</p>{% endblock form_info %}
+
 {% block icon %}
 <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
     <i class="bi bi-inboxes"></i>
 </div>
 {% endblock icon %}
-
-{% block form_head %} enter your email here {% endblock form_head %}
-{% block form_info %} we will send a code to your email for confirm the email address.{% endblock form_info %}

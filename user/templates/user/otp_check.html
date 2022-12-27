@@ -1,10 +1,15 @@
 {% extends 'user/base_form.html' %}
 
-{% block form_head %} Enter the sended code {% endblock form_head %}
-{% block form_info %} 
-we send a code to {{otp.email}} , in time {{otp.end_time.time}} your code invalided , (the coode will be printed in terminal)
-if you want choose another email try again after time {{otp.end_time.time}} 
+{% block form_head %}
+<h1 class="fw-bolder" id='form-head'> Enter the sended code </h1>
+{% endblock form_head %}
+
+{% block form_info %}
+<p class="lead fw-normal text-muted mb-0">
+    we send a code to {{otp.email}} ,your code invalided in time {{otp.end_time.time}}, (the coode will be printed in terminal)
+    if you want choose another email try again after time {{otp.end_time.time}} 
 <div id='timer'></div>
+</p>
 {% endblock form_info %}
 
 {% block icon %}

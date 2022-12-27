@@ -23,8 +23,8 @@
             {% if not user_target.email %}
             <a class='btn btn-danger' style='width: 100%; margin-top: 1rem;' href="{% url 'create-otp' %}">Add your email!!</a>
             {% endif %}
-            <a class='btn btn-secondary' style='width: 100%; margin-top: 1rem;' href="{% url 'user-edit' user.username %}">Edit your Information</a>
-            <a href="{% url 'post-create' %}" class='btn btn-primary' style='width: 100%; margin-top: 1rem;'>Create new post</a>
+            <a class='btn btn-secondary' id="link-btn" href="{% url 'user-edit' user.username %}">EDIT PROFILE</a>
+            <a href="{% url 'post-create' %}" class='btn btn-primary' id="link-btn">NEW POST </a>
             {% endif %}
         </div>
         <hr>

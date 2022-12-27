@@ -1,7 +1,7 @@
 {% extends 'user/base_form.html' %}
 
-{% block form_head %}{{user.username}} logout form.{% endblock form_head %}
-{% block form_info %}Confirm to logout.{% endblock form_info %}
+{% block form_head %}<h1 class="fw-bolder" id='form-head'>Confirm the form for logout.</h1>{% endblock form_head %}
+{% block form_info %}<p class="lead fw-normal text-muted mb-0">Dear {{user.username}} are you sure for logout from your account ?</p>{% endblock form_info %}
 
 {% block icon %}
 <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3">

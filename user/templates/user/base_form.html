@@ -22,8 +22,9 @@
                 </div>
                 {% endblock icon %}
 
-                <h1 class="fw-bolder" id='form-head'> {% block form_head %}{{form_name}} form{% endblock form_head %} </h1>
-                <p class="lead fw-normal text-muted mb-0">{% block form_info %}No information for this form.{% endblock form_info %}</p>
+                {% block form_head %}<h1 class="fw-bolder" id='form-head'> {{form_name}} form </h1>{% endblock form_head %}
+                {% block form_info %}<p class="lead fw-normal text-muted mb-0">Complete the form and submit.</p>{% endblock form_info %}
+                
             </div>
             <div class="row gx-5 justify-content-center">
                 <div class="col-lg-8 col-xl-6">
@@ -59,13 +60,14 @@
 
                         {% endblock fields %}
                         
+                        {% block form_link %}{% endblock form_link %}
+
                         <!-- Submit Button-->
                         {% block btn %}
                         <div class="d-grid">
                             <button class="btn btn-primary btn-lg" id="submitButton" type="submit"> Submit </button>
                         </div>
                         {% endblock btn %}
-
                     </form>
                     
                 </div>

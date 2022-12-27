@@ -110,7 +110,7 @@ class UserUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form_name"] = 'edit profile'
+        context["form_name"] = 'Edit profile'
         return context
     
     def get(self, request, *args, **kwargs):

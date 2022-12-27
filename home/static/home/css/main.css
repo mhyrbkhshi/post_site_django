@@ -14,3 +14,8 @@
 #area_input{
     height: 10%;
 }
+#link-btn{
+    width: 50%;
+    margin-top: 1rem;
+    border-radius: 5rem;
+}
