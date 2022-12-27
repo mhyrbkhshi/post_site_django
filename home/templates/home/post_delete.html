@@ -7,12 +7,12 @@
 </div>
 {% endblock icon %}
 
-{% block form_head %}Are you sure for delete '{{post.title}}' post ?{% endblock form_head %}
-{% block form_info %} Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos molestiae nesciunt repellat eligendi quas cum? Nam eveniet perspiciatis est delectus doloremque placeat dicta repellat recusandae temporibus voluptate quia, maiores expedita. {% endblock form_info %}
+{% block form_head %}<h1 class="fw-bolder" id='form-head'>Delete post {{post.title}}</h1>{% endblock form_head %}
+{% block form_info %}<p class="lead fw-normal text-muted mb-0">Are you sure for delete '{{post.title}}' post ?</p>{% endblock form_info %}        
 
 {% block btn %}
 <div class="d-grid">
-    <button class="btn btn-danger btn-lg" id="submitButton" type="submit" > Confirm </button>
+    <button class="btn btn-danger btn-lg" id="submitButton" type="submit" > Delete </button>
     <a class="btn btn-secondary btn-lg" style='margin-top: 1rem;' href="{% url 'post-detail' post.slug %}" > Cancel </a>
 </div>
-{% endblock btn %}
+{% endblock btn %} 

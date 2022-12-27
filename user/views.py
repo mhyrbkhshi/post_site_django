@@ -7,7 +7,6 @@ from .forms import UserLoginForm, ClientUserCreateForm, ClientUserEditForm, Crea
 from .models import User, Otp
 from django.http import Http404
 from django.contrib import messages
-from django.contrib.messages.views import SuccessMessageMixin
 
 
 class UserLogoutView(View):
@@ -34,7 +33,7 @@ def get_form_response(request, template_name, form_name, form=None):
         })
 
 
-class UserSigninView(SuccessMessageMixin, View):
+class UserSigninView(View):
     form = UserLoginForm
     template_name = 'user/user_signin.html'
 
